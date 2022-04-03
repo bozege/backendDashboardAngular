@@ -4,6 +4,8 @@ import { AppModule } from './app.module';
 
 import { initializeFirebaseSDK } from "./db/firebaseClient";
 
+var cors = require('cors')
+
 async function bootstrap() {
   const logger = new Logger("VoiceFromAbove");
 
@@ -14,7 +16,7 @@ async function bootstrap() {
 
     
     const app = await NestFactory.create(AppModule);
-    
+    app.use(cors());
   
     await app.listen(3000);
   }

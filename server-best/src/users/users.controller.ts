@@ -9,26 +9,42 @@ export class UsersController {
 
     @Post("/registerViaEmailPass")
     async addUser(@Request() req: any, @Response() res: any) {
-        const { name, email, password } = req.body;
+        const { email, password } = req.body;
+
         try {
-            const result = await this.usersService.createUserWithEmailPass(name, email, password)
+            const result = await this.usersService.createUserWithEmailPass(email, password)
             res.status(result.statusCode).json(result)
+
         } catch (error) {
-            console.log("error")
-            return { msg: "Internal Error!" }
+            const newError = error.code.split("/")[1];
+            console.log("Error occurred god knows where: users.controller.ts"); //Hehe
+            let statusCode = 400;
+
+            return {
+                statusCode,
+                error: newError
+            }
         }
     }
 
     @Post("/loginViaEmailPass")
     async loginUser(@Request() req: any, @Response() res: any) {
         const { email, password } = req.body;
+        
         try {
 
             const result = await this.usersService.loginWithEmailPass(email, password)
             res.status(result.statusCode).json(result)
+            
         } catch (error) {
-            console.log(error)
-            return { msg: "Internal Error!" }
+            const newError = error.code.split("/")[1];
+            console.log("Error occurred god knows where: users.controller.ts"); //Hehe
+            let statusCode = 400;
+
+            return {
+                statusCode,
+                error: newError
+            }
         }
     }
 
@@ -42,7 +58,7 @@ export class UsersController {
             res.status(result.statusCode).json(result)
         } catch (error) {
             console.log(error)
-            return "Something went wrong!";
+            return { msg: "Internal Error!" };
         }
     }
 

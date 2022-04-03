@@ -46,8 +46,8 @@ export class UsersService {
                 return { statusCode, msg: "Logged in succesfully!", uid: user.uid, token: userToken }
             })
             .catch((err) => {
-                console.log(err)
                 const newErr = err.code.split("/")[1];
+                console.log("Error occurred god knows where: users.service.ts");
 
                 switch (newErr) {
                     case "wrong-password":
@@ -78,7 +78,7 @@ export class UsersService {
     }
 
 
-    async createUserWithEmailPass(name, email, password) {
+    async createUserWithEmailPass(email, password) {
 
         
         try {
@@ -99,7 +99,7 @@ export class UsersService {
             const accToken = await user.getIdToken()
 
             //Firestore user register
-            const data = { name, email, uid: user.uid }
+            const data = { email, uid: user.uid }
             const response = await this.db.collection("Users").add(data)
             statusCode = 201 // Done
         
@@ -113,7 +113,7 @@ export class UsersService {
             
         } catch (error) {
             const newError = error.code.split("/")[1];
-            console.log("Error occurred god knows why"); //Hehe
+            console.log("Error occurred god knows where: users.service.ts"); //Hehe
             let statusCode = 400;
 
             switch (newError) {
@@ -168,16 +168,5 @@ export class UsersService {
 
             })
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }
