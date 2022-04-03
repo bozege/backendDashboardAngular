@@ -35,6 +35,7 @@ export class UsersController {
 
             const result = await this.usersService.loginWithEmailPass(email, password)
             res.status(result.statusCode).json(result)
+            return result;
             
         } catch (error) {
             const newError = error.code.split("/")[1];

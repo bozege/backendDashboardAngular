@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { AuthMiddleWare } from './middlewares/auth.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CandidatesController } from './candidates/candidates.controller';
@@ -15,4 +16,8 @@ import { UsersModule } from './users/users.module';
   controllers: [AppController, SkillsController, CandidatesController],
   providers: [AppService, SkillsService, CandidatesService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleWare).forRoutes();
+  }
+}

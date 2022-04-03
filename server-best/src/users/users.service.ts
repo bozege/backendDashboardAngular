@@ -43,6 +43,7 @@ export class UsersService {
             .then(async (userCredential) => {
                 const user = userCredential.user;
                 const userToken = await user.getIdToken()
+                this.logger.log("Logged in successfully!")
                 return { statusCode, msg: "Logged in succesfully!", uid: user.uid, token: userToken }
             })
             .catch((err) => {
@@ -70,7 +71,8 @@ export class UsersService {
                 }
                 return {
                     statusCode,
-                    error: newErr
+                    error: newErr,
+                    output: console.log(statusCode, newErr)
                 }
             });
         return response
