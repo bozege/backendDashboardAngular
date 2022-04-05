@@ -34,7 +34,8 @@ export class CandidatesController {
 
         } catch (error) {
             console.log("error")
-            return { msg: "Internal Error!" }
+            return { msg: "Internal Erro!" }
+
             
         }
         
