@@ -7,16 +7,16 @@ import { Injectable, Logger } from '@nestjs/common';
 
 
 @Injectable()
-export class SkillsService {
+export class TestsService {
     db: any
     logger: any
-    userRef: any
+    //userRef: any
     
     
 
     constructor() {
         this.db = this.getFireStore();
-        this.logger = new Logger("SkillsService");
+        this.logger = new Logger("TestsService");
         
 
     }
@@ -25,14 +25,14 @@ export class SkillsService {
     async getFireStore() {
         try {
             const firestore = await admin.firestore()
-            this.logger.log("Firestore instance is occured from skills.service!")
+            this.logger.log("Firestore instance is occured from tests.service!")
             return firestore;
         } catch (error) {
             console.log(error)
         }
     }
 
-    async addSkill(skill_name: string, skill_detail: string, test: Array<string>) {
+    async addTest(test_name: string, test_detail: string) {
 
         try {
             if (!this.db) {
@@ -44,14 +44,14 @@ export class SkillsService {
 
             
             
-            const skill = { skill_name, skill_detail, test }
-            const response = await this.db.collection("Skills").add(skill)
+            const test = { test_name, test_detail }
+            const response = await this.db.collection("Tests").add(test)
             statusCode = 201 // Done
         
             return {
                 statusCode,
-                msg: "Skill added to database successfully!",
-                SkillId: response.id
+                msg: "Test added to database successfully!",
+                TestId: response.id
             }
         } catch (error) {
             const newError = error.code.split("/")[1];
@@ -64,6 +64,7 @@ export class SkillsService {
         }
 
     }
+    
 
     
 

@@ -19,7 +19,7 @@ export class CandidatesService {
     async getFireStore() {
         try {
             const firestore = await admin.firestore()
-            this.logger.log("Firestore instance is occured!")
+            this.logger.log("Firestore instance is occured from candidates.service!")
             return firestore;
         } catch (error) {
             console.log(error)
@@ -72,10 +72,15 @@ export class CandidatesService {
             const querySnapshot = await this.db.collection("Candidates").get();
             querySnapshot.forEach((doc) => {
                 candidateData.push({
-                    data: doc.data(),
+                    name: doc.data().name,
+                    email: doc.data().email,
                     candidate_id: doc.id,
                 })
-                console.log(doc.data(), doc.id);
+                console.log({
+                    name: doc.data().name, 
+                    email: doc.data().email,
+                    candidate_id: doc.id
+                });
             })
 
             statusCode = 201;

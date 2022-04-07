@@ -32,6 +32,8 @@ export class CandidatesController {
             //console.log("getallcustomerscontroller");
             res.status(candidates.statusCode).json(candidates)
 
+            //return candidates; //copied from my old project, might be incorrect.
+
         } catch (error) {
             console.log("error")
             return { msg: "Internal Erro!" }
