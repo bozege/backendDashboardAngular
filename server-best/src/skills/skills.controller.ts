@@ -1,4 +1,4 @@
-import { Controller, Post, Request, Response } from '@nestjs/common';
+import { Controller, Post, Request, Response, Get } from '@nestjs/common';
 import { SkillsService } from './skills.service';
 
 
@@ -17,6 +17,23 @@ export class SkillsController {
             console.log("error")
             return { msg: "Internal Error!" }
         }
+    }
+
+    @Get()
+    async getAllSkills(@Response() res: any) {
+        try {
+            const tests = await this.skillsService.getSkills();
+            res.status(tests.statusCode).json(tests)
+
+            
+
+        } catch (error) {
+            console.log("error")
+            return { msg: "Internal Erro!" }
+
+            
+        }
+        
     }
 
 }

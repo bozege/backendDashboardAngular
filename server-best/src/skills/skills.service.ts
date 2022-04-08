@@ -65,6 +65,55 @@ export class SkillsService {
 
     }
 
+    async getSkills() {
+        
+        try {
+            if (!this.db) {
+                this.db = await this.getFireStore();
+            }
+            this.db = await this.getFireStore();
+            let statusCode = 200; // OK
+
+            const skillData = [];
+            const querySnapshot = await this.db.collection("Skills").get();
+            querySnapshot.forEach((doc) => {
+                skillData.push({
+                    skill_name: doc.data().skill_name,
+                    skill_detail: doc.data().skill_detail,
+                    test: doc.data().test,
+                    skill_id: doc.id,
+                })
+                console.log({
+                    skill_name: doc.data().skill_name,
+                    skill_detail: doc.data().skill_detail,
+                    test: doc.data().test,
+                    skill_id: doc.id,
+                });
+            })
+
+            statusCode = 201;
+            
+            return {
+                statusCode,
+                msg: "Skills fetched from database successfully!",
+                skills: skillData
+            }
+        
+        } catch (error) {
+            const newError = error.code.split("/")[1];
+            console.log("Error occurred god knows why");
+            let statusCode = 400;
+
+            return {
+                statusCode,
+                error: newError,
+                olderror: error
+
+                
+            }
+        }
+    }
+
     
 
     

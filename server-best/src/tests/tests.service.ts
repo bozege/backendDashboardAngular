@@ -64,6 +64,53 @@ export class TestsService {
         }
 
     }
+
+    async getTests() {
+        
+        try {
+            if (!this.db) {
+                this.db = await this.getFireStore();
+            }
+            this.db = await this.getFireStore();
+            let statusCode = 200; // OK
+
+            const testData = [];
+            const querySnapshot = await this.db.collection("Tests").get();
+            querySnapshot.forEach((doc) => {
+                testData.push({
+                    test_name: doc.data().test_name,
+                    test_detail: doc.data().test_detail,
+                    test_id: doc.id,
+                })
+                console.log({
+                    test_name: doc.data().test_name,
+                    test_detail: doc.data().test_detail,
+                    test_id: doc.id,
+                });
+            })
+
+            statusCode = 201;
+            
+            return {
+                statusCode,
+                msg: "Tests fetched from database successfully!",
+                tests: testData
+            }
+        
+        } catch (error) {
+            const newError = error.code.split("/")[1];
+            console.log("Error occurred god knows why");
+            let statusCode = 400;
+
+            return {
+                statusCode,
+                error: newError,
+                olderror: error
+
+                
+            }
+        }
+    }
     
 
     
