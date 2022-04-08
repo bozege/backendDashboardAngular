@@ -51,7 +51,7 @@ export class TestsService {
             return {
                 statusCode,
                 msg: "Test added to database successfully!",
-                TestId: response.id
+                testId: response.id
             }
         } catch (error) {
             const newError = error.code.split("/")[1];

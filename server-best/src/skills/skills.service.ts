@@ -32,7 +32,7 @@ export class SkillsService {
         }
     }
 
-    async addSkill(skill_name: string, skill_detail: string, test: Array<string>) {
+    async addSkill(skill_name: string, skill_detail: string, skill_test: Array<string>) {
 
         try {
             if (!this.db) {
@@ -44,14 +44,14 @@ export class SkillsService {
 
             
             
-            const skill = { skill_name, skill_detail, test }
+            const skill = { skill_name, skill_detail, skill_test }
             const response = await this.db.collection("Skills").add(skill)
             statusCode = 201 // Done
         
             return {
                 statusCode,
                 msg: "Skill added to database successfully!",
-                SkillId: response.id
+                skillId: response.id
             }
         } catch (error) {
             const newError = error.code.split("/")[1];
@@ -80,13 +80,13 @@ export class SkillsService {
                 skillData.push({
                     skill_name: doc.data().skill_name,
                     skill_detail: doc.data().skill_detail,
-                    test: doc.data().test,
+                    skill_test: doc.data().skill_test,
                     skill_id: doc.id,
                 })
                 console.log({
                     skill_name: doc.data().skill_name,
                     skill_detail: doc.data().skill_detail,
-                    test: doc.data().test,
+                    skill_test: doc.data().skill_test,
                     skill_id: doc.id,
                 });
             })

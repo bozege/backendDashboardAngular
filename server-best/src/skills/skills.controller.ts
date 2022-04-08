@@ -9,9 +9,9 @@ export class SkillsController {
 
     @Post()
     async addSkill(@Request() req: any, @Response() res: any) {
-        const { skill_name, skill_detail, test } = req.body;
+        const { skill_name, skill_detail, skill_test } = req.body;
         try {
-            const result = await this.skillsService.addSkill(skill_name, skill_detail, test)
+            const result = await this.skillsService.addSkill(skill_name, skill_detail, skill_test)
             res.status(result.statusCode).json(result)
         } catch (error) {
             console.log("error")
