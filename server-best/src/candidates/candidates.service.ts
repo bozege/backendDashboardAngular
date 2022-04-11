@@ -53,7 +53,8 @@ export class CandidatesService {
             let statusCode = 400;
 
             return {
-                statusCode
+                statusCode,
+                error: newError
             }
         }
 
@@ -102,6 +103,45 @@ export class CandidatesService {
                 olderror: error
 
                 
+            }
+        }
+    }
+
+    async deleteCandidate(candidate_id: string) {
+        try {
+            if (!this.db) {
+                this.db = await this.getFireStore();
+            }
+            this.db = await this.getFireStore();
+            let statusCode = 200; // OK
+        
+
+            
+            const deleted = await this.db.collection("Candidates").doc(candidate_id).get();
+            const deletedData = []
+            deletedData.push({
+                name: deleted.data().name,
+                email: deleted.data().email,
+                candidate_id: deleted.id,
+            })
+            
+            const response = await this.db.collection("Candidates").doc(candidate_id).delete();
+            statusCode = 201 // Done
+        
+            return {
+                statusCode,
+                msg: "Candidate deleted successfully!",
+                candidateId: candidate_id,
+                deletedData: deletedData
+            }
+        } catch (error) {
+            const newError = error.code.split("/")[1];
+            console.log("Error occurred god knows why"); //Hehe
+            let statusCode = 400;
+
+            return {
+                statusCode,
+                error: newError
             }
         }
     }

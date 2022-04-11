@@ -59,7 +59,8 @@ export class QuestionsService {
             let statusCode = 400;
 
             return {
-                statusCode
+                statusCode,
+                error: newError
             }
         }
 
@@ -114,7 +115,47 @@ export class QuestionsService {
         }
     }
 
+    async deleteQuestion(question_id: string) {
+        try {
+            if (!this.db) {
+                this.db = await this.getFireStore();
+            }
+            this.db = await this.getFireStore();
+            let statusCode = 200; // OK
+        
 
+            
+            
+            const deleted = await this.db.collection("Questions").doc(question_id).get();
+            const deletedData = []
+            deletedData.push({
+                question: deleted.data().question,
+                options: deleted.data().options,
+                question_skill: deleted.data().question_skill,
+                question_id: deleted.id,
+            })
+            
+            const response = await this.db.collection("Questions").doc(question_id).delete();
+            statusCode = 201 // Done
+        
+            return {
+                statusCode,
+                msg: "Question deleted successfully!",
+                questionId: question_id,
+                deletedData: deletedData
+            }
+        } catch (error) {
+            const newError = error.code.split("/")[1];
+            console.log("Error occurred god knows why"); //Hehe
+            let statusCode = 400;
+
+            return {
+                statusCode,
+                error: newError
+            }
+        }
+
+    }
 
 
 }

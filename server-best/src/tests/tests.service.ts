@@ -59,7 +59,8 @@ export class TestsService {
             let statusCode = 400;
 
             return {
-                statusCode
+                statusCode,
+                error: newError
             }
         }
 
@@ -112,7 +113,45 @@ export class TestsService {
         }
     }
     
+    async deleteTest(test_id: string) {
+        try {
+            if (!this.db) {
+                this.db = await this.getFireStore();
+            }
+            this.db = await this.getFireStore();
+            let statusCode = 200; // OK
+        
 
+            
+            
+            const deleted = await this.db.collection("Tests").doc(test_id).get();
+            const deletedData = []
+            deletedData.push({
+                test_name: deleted.data().test_name,
+                test_detail: deleted.data().test_detail,
+                test_id: deleted.id,
+            })
+            
+            const response = await this.db.collection("Tests").doc(test_id).delete();
+            statusCode = 201 // Done
+        
+            return {
+                statusCode,
+                msg: "Test deleted successfully!",
+                testId: test_id,
+                deletedData: deletedData
+            }
+        } catch (error) {
+            const newError = error.code.split("/")[1];
+            console.log("Error occurred god knows why"); //Hehe
+            let statusCode = 400;
+
+            return {
+                statusCode,
+                error: newError
+            }
+        }
+    }
     
 
     

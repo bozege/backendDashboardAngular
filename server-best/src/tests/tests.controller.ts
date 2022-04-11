@@ -1,4 +1,4 @@
-import { Controller, Post, Request, Response, Get } from '@nestjs/common';
+import { Controller, Post, Request, Response, Get, Delete } from '@nestjs/common';
 import { TestsService } from './tests.service';
 
 
@@ -34,5 +34,18 @@ export class TestsController {
             
         }
         
+    }
+
+    @Delete()
+     async deleteCandidate(@Request() req: any, @Response() res: any) {
+
+        const deleted_id = req.body.test_id;
+        try {
+            const result = await this.testsService.deleteTest(deleted_id)
+            res.status(result.statusCode).json(result)
+        } catch (error) {
+            console.log("error")
+            return { msg: "Internal Error!" }
+        }
     }
 }
