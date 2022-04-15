@@ -1,7 +1,7 @@
 const admin = require("../db/firebaseAdmin")
 
 import { Injectable, Logger } from '@nestjs/common';
-import { collection, getDocs, QuerySnapshot } from "firebase/firestore";
+import { collection, getDoc, QuerySnapshot, doc, deleteDoc } from "firebase/firestore";
 
 @Injectable()
 export class CandidatesService {

@@ -1,4 +1,4 @@
-import { Controller, Body, Post, Request, Response, Get, Delete } from '@nestjs/common';
+import { Controller, Body, Post, Request, Response, Get, Delete, Param } from '@nestjs/common';
 import { CandidatesService } from './candidates.service';
 
 
@@ -35,24 +35,58 @@ export class CandidatesController {
             //return candidates; //copied from my old project, might be incorrect.
 
         } catch (error) {
-            console.log("error")
-            return { msg: "Internal Erro!" }
+            const newError = error.code.split("/")[1];
+            console.log("Error occurred god knows where: candidates.controller.ts"); //Hehe
+            let statusCode = 400;
 
-            
+            return {
+                statusCode,
+                error: newError,
+                msg: error
+            }
         }
         
     }
 
-     @Delete()
-     async deleteCandidate(@Request() req: any, @Response() res: any) {
+    //  @Delete()
+    //  async deleteCandidate(@Request() req: any, @Response() res: any) {
 
-        const deleted_id = req.body.candidate_id;
+    //     const deleted_id = req.body.candidate_id;
+    //     try {
+    //         const result = await this.candidatesService.deleteCandidate(deleted_id)
+    //         res.status(result.statusCode).json(result)
+
+    //     } catch (error) {
+    //         //const newError = error.code.split("/")[1];
+    //         console.log("Error occurred god knows where: candidates.controller.ts DELETE"); //Hehe
+    //         let statusCode = 700;
+
+    //         return {
+    //             statusCode,
+    //             //error: newError,
+    //             msg: error
+    //         }
+    //     }
+    // }
+
+    @Delete(":candidate_id")
+     async deleteCandidate(@Param("candidate_id") candidate_id: string, @Response() res: any) {
+
+        //const deleted_id = req.body.candidate_id;
         try {
-            const result = await this.candidatesService.deleteCandidate(deleted_id)
+            const result = await this.candidatesService.deleteCandidate(candidate_id)
             res.status(result.statusCode).json(result)
+
         } catch (error) {
-            console.log("error")
-            return { msg: "Internal Error!" }
+            //const newError = error.code.split("/")[1];
+            console.log("Error occurred god knows where: candidates.controller.ts DELETE"); //Hehe
+            let statusCode = 700;
+
+            return {
+                statusCode,
+                //error: newError,
+                msg: error
+            }
         }
     }
 
